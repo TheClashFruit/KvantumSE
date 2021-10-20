@@ -1,0 +1,53 @@
+/* 1B5E20 */
+
+:root {
+  --mdc-theme-primary: #1B5E20;
+  --mdc-theme-on-primary: #fff;
+  --mdc-theme-secondary: #004D40;
+  --mdc-theme-on-secondary: #fff;
+  --mdc-theme-background: #F5F4F4;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.mdc-text-field--focused:not(.mdc-text-field--disabled) .mdc-floating-label {
+  color: var(--mdc-theme-primary);
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  width: calc(100vw - 8px - 8px);
+}
+
+.mainC {
+  margin-top: 24px;
+}
+
+.topBar > .mdc-text-field {
+  width: 500px;
+  margin-left: 24px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.center > .mdc-text-field {
+  margin-top: 24px;
+  width: 500px;
+}
+
+.mdc-card {
+  width: 100%;
+  text-decoration: none;
+  color: black;
+}

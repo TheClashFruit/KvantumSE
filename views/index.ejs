@@ -6,11 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>KvantumSE</title>
+
+    <meta name="name" content="KvantumSE">
+    <meta name="description" content="The search engine thats build to search.">
+    <meta name="keywords" content="TheClashFruit, tcf, blokkok, susman, the, clash, fruit, kvantumse, kvantum">
+    <meta name="theme-color" content="#1B5E20">
+    
+    <meta property="og:title" content="KvantumSE">
+    <meta property="og:url" content="https://kvantumse.herokuapp.com">
+    <meta property="og:image" content="https://kvantumse.herokuapp.com/favicon.ico">
+    <meta property="og:description" content="The search engine thats build to search.">
+
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="./assets/style.css">
+
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
   </head>
-  <body>
-    <form action="/search">
-      <input type="text" name="q" id="query" placeholder="Enter something here.">
-      <button type="submit">Search</button>
+  <body style="overflow: hidden;">
+    <form action="/search" class="center">
+      <img src="./assets/KvantumSE.png">
+
+      <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
+        <span class="mdc-notched-outline">
+          <span class="mdc-notched-outline__leading"></span>
+          <span class="mdc-notched-outline__notch">
+            <span class="mdc-floating-label" id="my-label-id">Search...</span>
+          </span>
+          <span class="mdc-notched-outline__trailing"></span>
+        </span>
+        <input type="text" name="q" id="query" class="mdc-text-field__input" aria-labelledby="my-label-id">
+        <i onclick="document.getElementById('a').click();" class="material-icons mdc-text-field__icon mdc-text-field__icon--trailing" tabindex="0" role="button">search</i>
+      </label>
+
+      <button style="display: none;" type="submit" id="a"></button>
     </form>
+
+    <script>
+      const textField = new mdc.textField.MDCTextField(document.querySelector('.mdc-text-field'));
+    </script>
   </body>
 </html>

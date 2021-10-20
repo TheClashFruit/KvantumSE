@@ -6,17 +6,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>KvantumSE &bull; Search: <%= query %></title>
+
+    <meta name="name" content="KvantumSE &bull; Search: <%= query %>">
+    <meta name="description" content="The search engine thats build to search.">
+    <meta name="keywords" content="TheClashFruit, tcf, blokkok, susman, the, clash, fruit, kvantumse, kvantum, <%= query %>">
+    <meta name="theme-color" content="#1B5E20">
+    
+    <meta property="og:title" content="KvantumSE &bull; Search: <%= query %>">
+    <meta property="og:url" content="https://kvantumse.herokuapp.com">
+    <meta property="og:image" content="https://kvantumse.herokuapp.com/favicon.ico">
+    <meta property="og:description" content="The search engine thats build to search.">
+
+    <link rel="stylesheet" href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="./assets/style.css">
+    
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
   </head>
   <body>
-    <form action="/search">
-      <input type="text" name="q" id="query" placeholder="Enter something here." value="<%= query %>">
-      <button type="submit">Search</button>
+    <form action="/search" class="topBar">
+      <img src="./assets/KvantumSE.png" height="40px">
+    
+      <label class="mdc-text-field mdc-text-field--outlined mdc-text-field--with-trailing-icon">
+        <span class="mdc-notched-outline">
+          <span class="mdc-notched-outline__leading"></span>
+          <span class="mdc-notched-outline__notch">
+            <span class="mdc-floating-label" id="my-label-id">Search...</span>
+          </span>
+          <span class="mdc-notched-outline__trailing"></span>
+        </span>
+        <input type="text" name="q" id="query" class="mdc-text-field__input" aria-labelledby="my-label-id" value="<%= query %>">
+        <i onclick="document.getElementById('a').click();"
+          class="material-icons mdc-text-field__icon mdc-text-field__icon--trailing" tabindex="0" role="button">search</i>
+      </label>
+    
+      <button style="display: none;" type="submit" id="a"></button>
     </form>
 
-    <ul>
+    <div class="mainC" style="padding: 8px;">
       <% data.forEach(function(elem) { %>
-        <li><a href="<%= elem.url %>"><%- elem.title %></a></li>
+        <a class="mdc-card mdc-card--outlined" style="margin-top: 8px; padding: 8px;" href="<%= elem.url %>">
+          <div class="mdc-card__primary-action demo-card__primary-action" tabindex="0" style="display: flex;-ms-flex-direction: row;flex-direction: row;">
+            <div class="mdc-card__media mdc-card__media--square demo-card__media" style="background-image: url('https://www.google.com/s2/favicons?sz=128&domain_url=<%= elem.url %>'); width: 110px; height: 110px;">
+            </div>
+            <div class="demo-card__primary" style="margin-left: 1em;">
+              <h2 class="demo-card__title mdc-typography mdc-typography--headline6" style="margin-bottom: 0px;">
+                <%- elem.title %>
+              </h2>
+              <h3 class="demo-card__subtitle mdc-typography mdc-typography--subtitle2" style="margin-top: 4px; margin-bottom: 0;color: rgba(0, 0, 0, 0.5);">
+                <%= elem.url %>
+              </h3>
+            </div>
+          </div>
+        </a>
       <% }); %>
-    </ul>
+    </div>
+
+    <script>
+      const textField = new mdc.textField.MDCTextField(document.querySelector('.mdc-text-field'));
+    </script>
   </body>
 </html>

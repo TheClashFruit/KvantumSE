@@ -33,6 +33,8 @@ expressApp.get('/search', (req, res) => {
     });
 });
 
+expressApp.use('/assets', expressJs.static('assets'));
+
 expressApp.get('/crawl', (req, res) => {
    if(req.query.pass !== process.env.CRAWL_PASS) return;
   
