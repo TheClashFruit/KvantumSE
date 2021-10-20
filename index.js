@@ -87,7 +87,7 @@ expressApp.get('/crawl', (req, res) => {
                 try {
                   const title = data.match(/<title[^>]*>([^<]+)<\/title>/)[1];
 
-                  pool.query("INSERT INTO websites (url, title) SELECT ?,? FROM DUAL WHERE NOT EXISTS (SELECT url FROM websites WHERE url = ?)", [entries[i], title, entries[i]], (err, rows, fields) => {
+                  pool.query("INSERT INTO websites (url, title) SELECT ?,? FROM DUAL WHERE NOT EXISTS (SELECT title FROM websites WHERE title = ?)", [entries[i], title, title], (err, rows, fields) => {
                     console.log('[CRAWL] Added', entries[i], '.');
                     i++;
                     crawler();
