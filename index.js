@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const expressJs  = require('express');
+const fs         = require('fs');
 const mysql      = require('mysql2');
 const fetch      = require('node-fetch');
 const getUrls    = require('get-urls');
@@ -34,6 +35,18 @@ expressApp.get('/search', (req, res) => {
 });
 
 expressApp.use('/assets', expressJs.static('assets'));
+
+const endpointFilesV1 = fs.readdirSync('./api/v1').filter(file => file.endsWith('.js'));
+const endpointFilesV2 = fs.readdirSync('./api/v2').filter(file => file.endsWith('.js'));
+
+endpointFilesV1.forEach(endpointFile => {
+  require('./api/v1/' + endpointFile).addEndpoint(expressApp, pool);
+});
+
+endpointFilesV2.forEach(endpointFile => {
+  require('./api/v2/' + endpointFile).addEndpoint(expressApp, pool);
+});
+
 
 expressApp.get('/crawl', (req, res) => {
    if(req.query.pass !== process.env.CRAWL_PASS) return;
@@ -110,38 +123,6 @@ expressApp.get('/crawl', (req, res) => {
         });
     });
   });
-})
-
-expressApp.get('/api/v1/search', (req, res) => {
-  console.log('[API]', req.url)
-
-  pool.query("SELECT * FROM websites WHERE title LIKE ?", [ '%' + req.query.q + '%' ], (err, rows, fields) => {
-    res.json(rows);
-  });
-});
-
-expressApp.get('/api/v1/addSite', (req, res) => {
-  console.log('[API]', req.url)
-
-  try {
-    fetch(req.query.url)
-      .then(response => response.text())
-      .then(data => {
-        const title = data.match(/<title[^>]*>([^<]+)<\/title>/)[1];
-
-        pool.query("INSERT INTO websites (url, title) SELECT ?,? FROM DUAL WHERE NOT EXISTS (SELECT title FROM websites WHERE title = ?)", [req.query.url, title, title], (err, rows, fields) => {
-          res.json({
-            status: 1,
-            message: 'Added the website.'
-          });
-        });
-      });
-  } catch (e) {
-    res.json({
-      status: 0,
-      message: e
-    });
-  }
 });
 
 expressApp.listen(process.env.PORT || 3000, () => {

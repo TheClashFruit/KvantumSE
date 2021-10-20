@@ -26,32 +26,35 @@ Example Response:
   ...
 ]
 ```
-<!--
+
 ### Search v2
 
-`GET https://kvantumse.herokuapp.com/api/v2/search?q=query`
+`GET https://kvantumse.herokuapp.com/api/v2/search?q=TheClashFruit`
 
-Example Responses:
+Example Response:
 ```json
-[
-  {
-    "id": 0,
-    "url": "https://www.theclashfruit.ga/",
-    "html_title": "TheClashFruit &bull; Home",
-    "title": "TheClashFruit • Home",
-    "meta": {
-      "name": "TheClashFruit &bull; Home",
-      "description": "Hello! I'm TheClashFruit, I make a lot of stuff like discord bots, android applications, games, websites, and a lot more!",
-      "keywords": "TheClashFruit, tcf, blokkok, susman, the, clash, fruit",
-      "theme-color": "#00796B",
-      "og:title": "TheClashFruit &bull; Home",
-      "og:url": "https://www.theclashfruit.ga",
-      "og:image": "https://www.theclashfruit.ga/favicon.ico",
-      "og:description": "Hello! I'm TheClashFruit, I make a lot of stuff like discord bots, android applications, games, websites, and a lot more!"
-    }
-    "added_date": "2021-10-20T12:32:54.000Z"
-  },
-  ...
-]
+{
+  "status": 1,
+  "query": "TheClashFruit",
+  "message": [
+    {
+      "id": 0,
+      "url": "https://www.theclashfruit.ga/",
+      "html_title": "TheClashFruit &bull; Home",
+      "title": "TheClashFruit • Home",
+      "meta": {
+        "name": "TheClashFruit &bull; Home",
+        "description": "Hello! I'm TheClashFruit, I make a lot of stuff like discord bots, android applications, games, websites, and a lot more!",
+        "keywords": "TheClashFruit, tcf, clash, fruit",
+        "theme-color": "#00796B",
+        "og:title": "TheClashFruit &bull; Home",
+        "og:url": "https://www.theclashfruit.ga",
+        "og:image": "https://www.theclashfruit.ga/favicon.ico",
+        "og:description": "Hello! I'm TheClashFruit, I make a lot of stuff like discord bots, android applications, games, websites, and a lot more!"
+      }
+      "added_date": "2021-10-20T12:32:54.000Z"
+    },
+    ...
+  ]
+}
 ```
--->
