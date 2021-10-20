@@ -15,7 +15,7 @@ module.exports = {
         return;
       }
 
-      const fetchResult = await fetch(url, { headers: { 'user-agent': 'Mozilla/5.0 (KvantumSEbot 1.0; sebot; https://kvantumse.herokuapp.com/search?q=KvantumSEbot&type=faq)' } });
+      const fetchResult = await fetch(url, { headers: { 'user-agent': 'Mozilla/5.0 (compatible; KvantumSE WoWbOt!; https://theclashfruit.ga/kse/wowbot.html)' } });
       const fetchedHMTL = await fetchResult.text();
 
       const $ = cheerio.load(fetchedHMTL);
