@@ -54,8 +54,8 @@ expressApp.get('/crawl', (req, res) => {
       toCrawl: rows
     });
 
-    rows.forEach(row => {
-      fetch(row.url)
+    rows.forEach(async (row) => {
+      fetch(row.url, { headers: { 'user-agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' } })
         .then(response => response.text())
         .then(data => {
           const toCrawl = getUrls(data, { requireSchemeOrWww: true });
@@ -64,7 +64,7 @@ expressApp.get('/crawl', (req, res) => {
 
           let i = 0;
 
-          const crawler = () => {
+          const crawler = async () => {
             const entries = Array.from(toCrawl);
             if (entries.size = 0) return;
 
@@ -83,23 +83,27 @@ expressApp.get('/crawl', (req, res) => {
               return;
             }
 
-            fetch(entries[i])
-              .then(response => response.text())
-              .then(data => {
-                try {
-                  const title = data.match(/<title[^>]*>([^<]+)<\/title>/)[1];
+            try {
+              await fetch(entries[i], { headers: { 'user-agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' } })
+                .then(response => response.text())
+                .then(data => {
+                  try {
+                    const title = data.match(/<title[^>]*>([^<]+)<\/title>/)[1];
 
-                  pool.query("INSERT INTO websites (url, title) SELECT ?,? FROM DUAL WHERE NOT EXISTS (SELECT title FROM websites WHERE title = ?)", [entries[i], title, title], (err, rows, fields) => {
-                    console.log('[CRAWL] Added', entries[i], '.');
+                    pool.query("INSERT INTO websites (url, title) SELECT ?,? FROM DUAL WHERE NOT EXISTS (SELECT title FROM websites WHERE title = ?)", [entries[i], title, title], (err, rows, fields) => {
+                      console.log('[CRAWL] Added', entries[i], '.');
+                      i++;
+                      crawler();
+                    });
+                  } catch (e) {
+                    console.log('[CRAWL] ERROR:', e);
                     i++;
                     crawler();
-                  });
-                } catch (e) {
-                  console.log('[CRAWL] ERROR:', e);
-                  i++;
-                  crawler();
-                }
-              });
+                  }
+                });
+            } catch (e) {
+              console.log('[CRAWL] ERROR:', e);
+            }
           }
 
           crawler();
@@ -125,7 +129,7 @@ expressApp.get('/api/v1/addSite', (req, res) => {
       .then(data => {
         const title = data.match(/<title[^>]*>([^<]+)<\/title>/)[1];
 
-        pool.query("INSERT INTO websites (url, title) SELECT ?,? FROM DUAL WHERE NOT EXISTS (SELECT url FROM websites WHERE url = ?)", [req.query.url, title, req.query.url], (err, rows, fields) => {
+        pool.query("INSERT INTO websites (url, title) SELECT ?,? FROM DUAL WHERE NOT EXISTS (SELECT title FROM websites WHERE title = ?)", [req.query.url, title, title], (err, rows, fields) => {
           res.json({
             status: 1,
             message: 'Added the website.'
@@ -142,4 +146,9 @@ expressApp.get('/api/v1/addSite', (req, res) => {
 
 expressApp.listen(process.env.PORT || 3000, () => {
   console.log(`[WEB] http://localhost:${process.env.PORT || 3000}`);
+});
+
+process.on('uncaughtException', function (err) {
+  console.error(err);
+  console.log("Node NOT Exiting...");
 });
