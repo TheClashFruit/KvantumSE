@@ -34,6 +34,8 @@ expressApp.get('/search', (req, res) => {
 });
 
 expressApp.get('/crawl', (req, res) => {
+   if(req.query.pass !== process.env.CRAWL_PASS) return;
+  
   pool.query("SELECT url FROM websites", (err, rows, fields) => {
     if(err) {
       res.json({
