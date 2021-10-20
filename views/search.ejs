@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>KvantumSE &bull; Search: <%= query %></title>
+  </head>
+  <body>
+    <form action="/search">
+      <input type="text" name="q" id="query" placeholder="Enter something here." value="<%= query %>">
+      <button type="submit">Search</button>
+    </form>
+
+    <ul>
+      <% data.forEach(function(elem) { %>
+        <li><a href="<%= elem.url %>"><%- elem.title %></a></li>
+      <% }); %>
+    </ul>
+  </body>
+</html>
