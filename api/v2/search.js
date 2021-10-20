@@ -16,7 +16,11 @@ module.exports = {
           })
         });
 
-        res.json(finalResaults);
+        res.json({
+          status: 1, 
+          query: req.query.q, 
+          message: finalResaults
+        });
       });
     });
   }
