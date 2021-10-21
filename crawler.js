@@ -10,7 +10,7 @@ module.exports = {
       const protocol = new URL(url).protocol;
 
       if (protocol == 'http:' || protocol == 'https:') {
-        console.log('[CRAWL] Protocol:', protocol);
+        //console.log('[CRAWL] Protocol:', protocol);
       } else {
         return;
       }
@@ -30,8 +30,21 @@ module.exports = {
       const links = await $("a").map((i, link) => link.attribs.href).get();
 
       links.forEach(link => {
-        crawler(link);
         console.log(link);
+
+        if(link.startsWith('./')) {
+          const url2 = new URL(url);
+          console.log(url2.protocol + '//' + url2.hostname + '/' + pathname + link.replace('./', '/'));
+          crawler(url2.protocol + '//' + url2.hostname + '/' + pathname + link.replace('./', '/'));
+        } else if (link.startsWith('/')) {
+          const url3 = new URL(url);
+          console.log(url3.protocol + '//' + url3.hostname + link);
+          crawler(url3.protocol + '//' + url3.hostname + link);
+        } else if (link.startsWith('//')) {
+          crawler('http:' + link);
+        } else {
+          crawler(link);
+        }
       });
     }
 

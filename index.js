@@ -21,7 +21,7 @@ const pool = mysql.createPool({
   queueLimit: 0
 });
 
-//require('./crawler').runCrawler('https://theclashfruit.ga', pool)
+//require('./crawler').runCrawler('https://web.sketchub.in/u/TheClashFruit', pool)
 
 expressApp.get('/', (req, res) => {
   res.render('index.ejs');
