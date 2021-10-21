@@ -14,8 +14,6 @@
     "ejs": "^3.1.6",
     "ejs-lint": "^1.2.1",
     "express": "^4.17.1",
-    "get-urls": "^10.0.1",
-    "lets-get-meta": "^2.1.1",
     "mysql2": "^2.3.2",
     "node-fetch": "^2.6.2"
   }

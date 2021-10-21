@@ -4,7 +4,6 @@ const expressJs  = require('express');
 const fs         = require('fs');
 const mysql      = require('mysql2');
 const fetch      = require('node-fetch');
-const getUrls    = require('get-urls');
 const expressApp = expressJs();
 
 expressApp.set('view engine', 'ejs');
@@ -47,84 +46,6 @@ endpointFilesV1.forEach(endpointFile => {
 
 endpointFilesV2.forEach(endpointFile => {
   require('./api/v2/' + endpointFile).addEndpoint(expressApp, pool);
-});
-
-
-expressApp.get('/crawl', (req, res) => {
-   if(req.query.pass !== process.env.CRAWL_PASS) return;
-  
-  pool.query("SELECT url FROM websites", (err, rows, fields) => {
-    if(err) {
-      res.json({
-        status: '0',
-        message: err,
-      });
-
-      return;
-    }
-
-    res.json({
-      status: '1',
-      message: 'Started crawling all websites, this may take a while.',
-      toCrawl: rows
-    });
-
-    rows.forEach(async (row) => {
-      fetch(row.url, { headers: { 'user-agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' } })
-        .then(response => response.text())
-        .then(data => {
-          const toCrawl = getUrls(data, { requireSchemeOrWww: true });
-          if(toCrawl.size === 0) return;
-          console.log('[CRAWL]', toCrawl);
-
-          let i = 0;
-
-          const crawler = async () => {
-            const entries = Array.from(toCrawl);
-            if (entries.size = 0) return;
-
-            let url;
-
-            try {
-              url = new URL(entries[i]);
-            } catch (e) {
-              console.log('[CRAWL]', 'ERROR:', e);
-              return;
-            }
-
-            if (url.protocol == 'http:' || url.protocol == 'https:') {
-              console.log('[CRAWL] Protocol:', url.protocol);
-            } else {
-              return;
-            }
-
-            try {
-              await fetch(entries[i], { headers: { 'user-agent': 'Mozilla/5.0 (compatible; Googlebot/2.1; +http://www.google.com/bot.html)' } })
-                .then(response => response.text())
-                .then(data => {
-                  try {
-                    const title = data.match(/<title[^>]*>([^<]+)<\/title>/)[1];
-
-                    pool.query("INSERT INTO websites (url, title) SELECT ?,? FROM DUAL WHERE NOT EXISTS (SELECT title FROM websites WHERE title = ?)", [entries[i], title, title], (err, rows, fields) => {
-                      console.log('[CRAWL] Added', entries[i], '.');
-                      i++;
-                      crawler();
-                    });
-                  } catch (e) {
-                    console.log('[CRAWL] ERROR:', e);
-                    i++;
-                    crawler();
-                  }
-                });
-            } catch (e) {
-              console.log('[CRAWL] ERROR:', e);
-            }
-          }
-
-          crawler();
-        });
-    });
-  });
 });
 
 expressApp.listen(process.env.PORT || 3000, () => {
