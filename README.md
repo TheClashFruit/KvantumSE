@@ -56,7 +56,7 @@ Example Response:
         "og:url": "https://www.theclashfruit.ga",
         "og:image": "https://www.theclashfruit.ga/favicon.ico",
         "og:description": "Hello! I'm TheClashFruit, I make a lot of stuff like discord bots, android applications, games, websites, and a lot more!"
-      }
+      },
       "added_date": "2021-10-20T12:32:54.000Z"
     },
     ...

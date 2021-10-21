@@ -28,10 +28,11 @@ expressApp.get('/', (req, res) => {
 });
 
 expressApp.get('/search', (req, res) => {
-  fetch('http://' + req.get('host') + '/api/v1/search?q=' + req.query.q)
+  fetch('http://' + req.get('host') + '/api/v2/search?q=' + req.query.q)
     .then(response => response.json())
     .then(data => {
-      res.render('search.ejs', { query: req.query.q, data: data });
+      if (data.status = 0) return;
+      res.render('search.ejs', { query: req.query.q, data: data.message });
     });
 });
 
