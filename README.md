@@ -9,6 +9,10 @@
 </p>
 
 ## API
+
+> API v1 has been removed, please use API v2 instead.
+
+<!--
 ### Search
 
 `GET https://kvantumse.herokuapp.com/api/v1/search?q=query`
@@ -26,8 +30,9 @@ Example Response:
   ...
 ]
 ```
+-->
 
-### Search v2
+### Search
 
 `GET https://kvantumse.herokuapp.com/api/v2/search?q=TheClashFruit`
 
