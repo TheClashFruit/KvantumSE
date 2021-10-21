@@ -58,3 +58,14 @@ Example Response:
   ]
 }
 ```
+
+### Favicon
+
+`GET https://kvantumse.herokuapp.com/api/v2/favicon?url=https://full.url/this_is_a_path/`
+
+Example Response:
+```
+Will redirect to the favicon image.
+
+https://kvantumse.herokuapp.com/api/v2/favicon?url=https://full.url/this_is_a_path/ > https://full.url/favicon.ico
+```
