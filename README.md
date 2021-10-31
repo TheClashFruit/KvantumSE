@@ -1,4 +1,4 @@
-<h1 align="center"><img alt="KvantumSE" src="https://kvantumse.herokuapp.com/assets/KvantumSE.png"></h1>
+<h1 align="center"><img alt="KvantumSE" src="https://raw.githubusercontent.com/TheClashFruit/kvantumse/main/assets/KvantumSE.png"></h1>
 <p align="center">
   <img alt="Website" src="https://img.shields.io/website?url=https%3A%2F%2Fkvantumse.herokuapp.com%2F">
   <img alt="Discord" src="https://img.shields.io/discord/852874519684186113">
